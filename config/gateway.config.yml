@@ -1,0 +1,62 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+apiEndpoints:
+  logisticsadmin:
+    host:  localhost
+    paths: '/logisticsadmin' # (path = '*' for login) logistics admin scope
+    scopes:
+      - 'admin'
+  lightningguest:
+    host:  localhost
+    paths: '/lightningguest' #lightning guest scope
+    scopes:
+      - 'guest'
+serviceEndpoints:
+  logisticsService:
+    url : 'http://localhost:3050' # http://localhost:3001/#/dashboard/
+  lightningService:
+    url : 'http://localhost:3051'
+policies:
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - jwt
+  - proxy
+  - rate-limit
+  - request-transformer
+pipelines:
+  admin:
+    apiEndpoints:
+      - logisticsadmin  #process all request matching "logisticsadmin" logisticEndpoint
+    policies:
+        - expression:
+          - action: 
+              jscode: > 
+                req.headers["authorization"] = 'Bearer ' + req.signedCookies.authorization;
+        - jwt:
+          - action:
+              secretOrPublicKeyFile: './public.pem'
+        - proxy:
+          - action:
+              serviceEndpoint: logisticsService
+              changeOrigin: true
+  guest:
+    apiEndpoints:
+      - lightningguest  #process all request matching "lightningsguest" lightningEndpoint
+    policies:
+        - expression:
+          - action:  #authorization apiKey KeyId:KeySecret ${KEYID}:${KEYSECRET}
+              jscode: >   
+                req.headers["authorization"] = 'Bearer ' + req.signedCookies.authorization;
+        - jwt:
+          - action:
+              secretOrPublicKeyFile: './public.pem'
+        - proxy:
+          - action:
+              serviceEndpoint: lightningService
+              changeOrigin: true
+  

@@ -1,0 +1,19 @@
+{
+  "name": "SiB_Gateway",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "bcrypt": "^4.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express-gateway": "^1.16.10",
+    "find-config": "^1.0.0",
+    "fs": "0.0.1-security",
+    "ioredis": "^4.16.1",
+    "node-forge": "^0.9.1"
+  }
+}
