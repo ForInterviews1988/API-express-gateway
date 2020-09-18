@@ -14,6 +14,6 @@
     "find-config": "^1.0.0",
     "fs": "0.0.1-security",
     "ioredis": "^4.16.1",
-    "node-forge": "^0.9.1"
+    "node-forge": "^0.10.0"
   }
 }
